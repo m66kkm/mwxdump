@@ -2748,17 +2748,13 @@ dependencies = [
 name = "mwxdump-ui"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "mwxdump-core",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
- "thiserror 2.0.12",
  "tokio",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]

@@ -32,11 +32,3 @@ serde_json = "1"
 # 异步运行时
 tokio = { version = "1.46", features = ["full"] }
 
-# 错误处理
-thiserror = "2.0.12"
-anyhow = "1.0"
-
-# 日志
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-
