@@ -5,28 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug cargo run key",
-            "cargo": {
-                "args": [
-                    "build",
-                    "--bin=mwx-cli"
-                ],
-                "filter": {
-                    "name": "mwx-cli",
-                    "kind": "bin"
-                }
-            },
-            "args": ["key"],
-            "cwd": "${workspaceFolder}",
-            "console": "integratedTerminal",
-            "environment": [
-                {
-                    "name": "RUST_LOG",
-                    "value": "debug"
-                }
-            ]
+
         }
    ]
 }
