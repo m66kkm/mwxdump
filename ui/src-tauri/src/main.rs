@@ -3,5 +3,5 @@
 
 
 fn main() {
-    mwxdump_ui_lib::run();
+   let _ = mwxdump_ui_lib::run();
 }   
