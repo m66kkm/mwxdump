@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Menu, MenuItem } from 'react-aria-components';
 import { cn } from '../../utils';
 import { NAVIGATION_ITEMS } from '../../utils/constants';
 import { NavigationItem } from '../../types';
@@ -13,6 +14,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, className }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <aside className={cn(
       'fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white shadow-lg',
@@ -41,54 +43,66 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse, className }) =
 
       {/* 导航菜单 */}
       <nav className="p-4 flex-1 overflow-y-auto">
-        <ul className="space-y-2">
+        <Menu
+          className="space-y-2 outline-none"
+          aria-label="主导航菜单"
+          onAction={(key) => {
+            const item = NAVIGATION_ITEMS.find(nav => nav.key === key);
+            if (item) {
+              navigate(item.path);
+            }
+          }}
+        >
           {NAVIGATION_ITEMS.map((item: NavigationItem) => {
             const isActive = location.pathname === item.path;
             return (
-              <li key={item.key}>
-                <Link
-                  to={item.path}
-                  className={cn(
-                    'flex items-center p-3 rounded-lg transition-all duration-200',
-                    'group relative',
-                    'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
-                    isActive
-                      ? 'bg-primary-50 text-primary-600 border-r-2 border-primary-500'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                  )}
-                >
-                  <i className={cn(
-                    item.icon,
-                    'flex-shrink-0 transition-colors duration-200',
-                    collapsed ? 'text-lg' : 'mr-3 text-base',
-                    isActive ? 'text-primary-600' : 'text-gray-600'
-                  )} />
-                  
-                  {!collapsed && (
-                    <span className={cn(
-                      'font-medium truncate',
-                      isActive ? 'text-primary-600' : 'text-gray-700'
-                    )}>
-                      {item.label}
-                    </span>
-                  )}
-                  
-                  {/* 折叠状态下的提示 */}
-                  {collapsed && (
-                    <div className={cn(
-                      'absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded',
-                      'opacity-0 invisible group-hover:opacity-100 group-hover:visible',
-                      'transition-all duration-200 whitespace-nowrap z-50'
-                    )}>
-                      {item.label}
-                      <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-r-4 border-r-gray-900 border-t-2 border-b-2 border-t-transparent border-b-transparent" />
-                    </div>
-                  )}
-                </Link>
-              </li>
+              <MenuItem
+                key={item.key}
+                id={item.key}
+                className={({ isFocused, isPressed }) => cn(
+                  'flex items-center p-3 rounded-lg transition-all duration-200',
+                  'group relative cursor-default outline-none',
+                  'focus:ring-2 focus:ring-primary-500 focus:ring-offset-2',
+                  isActive
+                    ? 'bg-primary-50 text-primary-600 border-r-2 border-primary-500'
+                    : cn(
+                        'text-gray-700',
+                        isFocused && 'bg-gray-100 text-gray-900',
+                        isPressed && 'bg-gray-200'
+                      )
+                )}
+              >
+                <i className={cn(
+                  item.icon,
+                  'flex-shrink-0 transition-colors duration-200',
+                  collapsed ? 'text-lg' : 'mr-3 text-base',
+                  isActive ? 'text-primary-600' : 'text-gray-600'
+                )} />
+                
+                {!collapsed && (
+                  <span className={cn(
+                    'font-medium truncate',
+                    isActive ? 'text-primary-600' : 'text-gray-700'
+                  )}>
+                    {item.label}
+                  </span>
+                )}
+                
+                {/* 折叠状态下的提示 */}
+                {collapsed && (
+                  <div className={cn(
+                    'absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded',
+                    'opacity-0 invisible group-hover:opacity-100 group-hover:visible',
+                    'transition-all duration-200 whitespace-nowrap z-50'
+                  )}>
+                    {item.label}
+                    <div className="absolute left-0 top-1/2 transform -translate-x-1 -translate-y-1/2 w-0 h-0 border-r-4 border-r-gray-900 border-t-2 border-b-2 border-t-transparent border-b-transparent" />
+                  </div>
+                )}
+              </MenuItem>
             );
           })}
-        </ul>
+        </Menu>
       </nav>
 
       {/* 底部信息 */}

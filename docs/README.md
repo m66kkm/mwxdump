@@ -9,6 +9,10 @@
 ### 技术设计文档
 - [日志系统架构设计](architecture/logging-system-design.md) - 日志系统重构设计文档
 
+### UI设计文档
+- [UI设计规范](../ui/docs/ui-design-specification.md) - 用户界面设计规范和实现指南
+- [UI文档索引](../ui/docs/README.md) - UI项目文档索引
+
 ### 进度报告
 - [日志系统重构报告](progress/logging-system-refactor-report.md) - 时间格式化函数优化与日志系统重构完成报告
 
@@ -26,10 +30,13 @@
 ### Technical Analysis (技术分析)
 包含技术调研、问题分析、解决方案等分析文档。
 
+### UI Design (界面设计)
+包含用户界面设计规范、交互设计指南、视觉设计标准等UI相关文档。
+
 ## 文档维护
 
-- 文档版本：v1.0
-- 最后更新：2025-01-20
+- 文档版本：v1.1
+- 最后更新：2025-07-21
 - 维护者：MWXDump 开发团队
 
 ## 使用说明
