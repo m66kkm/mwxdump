@@ -1,39 +1,28 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { MainLayout } from './components/layout';
+import { Overview, DataSource } from './pages';
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
+const App: React.FC = () => {
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <Router>
+      <MainLayout>
+        <Routes>
+          {/* 默认重定向到概览页面 */}
+          <Route path="/" element={<Navigate to="/overview" replace />} />
+          
+          {/* 概览页面 */}
+          <Route path="/overview" element={<Overview />} />
+          
+          {/* 数据源管理页面 */}
+          <Route path="/datasource" element={<DataSource />} />
+          
+          {/* 404 页面 - 重定向到概览 */}
+          <Route path="*" element={<Navigate to="/overview" replace />} />
+        </Routes>
+      </MainLayout>
+    </Router>
   );
-}
+};
 
 export default App;

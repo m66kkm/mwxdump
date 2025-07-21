@@ -1,0 +1,200 @@
+/* 全局样式 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 基础样式重置 */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+               'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 
+               '微软雅黑', sans-serif;
+  line-height: 1.6;
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 自定义工具类 */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 自定义阴影 */
+.shadow-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 自定义渐变 */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+}
+
+.bg-gradient-error {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+}
+
+/* 焦点样式 */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+/* 按钮基础样式 */
+.btn-base {
+  @apply inline-flex items-center justify-center font-medium rounded-lg 
+         transition-all duration-200 focus:outline-none focus:ring-2 
+         focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* 输入框基础样式 */
+.input-base {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg 
+         focus:outline-none focus:ring-2 focus:ring-primary-500 
+         focus:border-transparent transition-colors duration-200;
+}
+
+/* 卡片基础样式 */
+.card-base {
+  @apply bg-white rounded-xl shadow-sm border border-gray-200 
+         transition-shadow duration-200;
+}
+
+.card-hover {
+  @apply hover:shadow-md;
+}
+
+/* 状态指示器样式 */
+.status-dot {
+  @apply w-2 h-2 rounded-full flex-shrink-0;
+}
+
+.status-success .status-dot {
+  @apply bg-success-500;
+}
+
+.status-warning .status-dot {
+  @apply bg-warning-500;
+}
+
+.status-error .status-dot {
+  @apply bg-error-500;
+}
+
+.status-info .status-dot {
+  @apply bg-info-500;
+}
+
+.status-idle .status-dot {
+  @apply bg-gray-400;
+}
+
+/* 加载动画 */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 响应式工具类 */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .desktop-hidden {
+    display: none;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
