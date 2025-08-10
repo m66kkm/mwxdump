@@ -25,6 +25,7 @@ pub const KEY_SIZE: usize = 32;
 pub const SQLITE_HEADER: &[u8] = b"SQLite format 3\x00";
 
 /// 密钥派生结果
+#[derive(Debug, Clone)]
 pub struct DerivedKeys {
     pub enc_key: Vec<u8>,
     pub mac_key: Vec<u8>,

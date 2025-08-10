@@ -29,7 +29,7 @@ impl V4Decryptor {
     pub fn new() -> Self {
         Self {
             config: DecryptConfig::v4(),
-            enable_parallel: false,
+            enable_parallel: true,
             parallel_config: ParallelDecryptConfig::auto_configure(),
         }
     }
