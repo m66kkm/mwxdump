@@ -11,10 +11,12 @@ pub mod decrypt_common;
 pub mod decrypt_algorithm_v4;
 pub mod decrypt_validator;
 pub mod parallel_decrypt;
+pub mod cached_key_validator;
 
 
 pub use decrypt_files::DecryptionProcessor;
 pub use parallel_decrypt::{ParallelDecryptor, ParallelDecryptConfig};
+pub use cached_key_validator::{CachedKeyValidator, CacheConfig, BatchValidationResult, ValidationStats};
 
 /// 解密器版本
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

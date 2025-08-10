@@ -37,6 +37,7 @@ pbkdf2 = { workspace = true }
 hex = { workspace = true }
 zeroize = { workspace = true }
 byteorder = { workspace = true }
+blake3 = "1.5"
 
 # 压缩
 lz4 = { workspace = true }
