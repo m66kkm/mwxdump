@@ -13,12 +13,15 @@ use super::{
         derive_keys_v4, is_database_encrypted, decrypt_page, verify_page_hmac,
         SALT_SIZE, SQLITE_HEADER,
     },
+    parallel_decrypt::{ParallelDecryptor, ParallelDecryptConfig},
     DecryptConfig, Decryptor, ProgressCallback,
 };
 
 /// V4版本解密器
 pub struct V4Decryptor {
     config: DecryptConfig,
+    enable_parallel: bool,
+    parallel_config: ParallelDecryptConfig,
 }
 
 impl V4Decryptor {
@@ -26,7 +29,42 @@ impl V4Decryptor {
     pub fn new() -> Self {
         Self {
             config: DecryptConfig::v4(),
+            enable_parallel: false,
+            parallel_config: ParallelDecryptConfig::auto_configure(),
         }
+    }
+    
+    /// 创建新的V4解密器（禁用并行）
+    pub fn new_sequential() -> Self {
+        Self {
+            config: DecryptConfig::v4(),
+            enable_parallel: false,
+            parallel_config: ParallelDecryptConfig::auto_configure(),
+        }
+    }
+    
+    /// 创建新的V4解密器（自定义并行配置）
+    pub fn new_with_parallel_config(parallel_config: ParallelDecryptConfig) -> Self {
+        Self {
+            config: DecryptConfig::v4(),
+            enable_parallel: true,
+            parallel_config,
+        }
+    }
+    
+    /// 设置是否启用并行处理
+    pub fn set_parallel_enabled(&mut self, enabled: bool) {
+        self.enable_parallel = enabled;
+    }
+    
+    /// 设置并行配置
+    pub fn set_parallel_config(&mut self, config: ParallelDecryptConfig) {
+        self.parallel_config = config;
+    }
+    
+    /// 获取并行配置
+    pub fn parallel_config(&self) -> &ParallelDecryptConfig {
+        &self.parallel_config
     }
     
     /// 读取数据库文件信息
@@ -59,7 +97,46 @@ impl V4Decryptor {
         key: &[u8],
         progress_callback: Option<ProgressCallback>,
     ) -> Result<()> {
-        info!("开始V4数据库解密: {:?} -> {:?}", input_path, output_path);
+        // 根据配置选择解密方式
+        if self.enable_parallel {
+            self.decrypt_database_parallel(input_path, output_path, key, progress_callback).await
+        } else {
+            self.decrypt_database_sequential(input_path, output_path, key, progress_callback).await
+        }
+    }
+    
+    /// 并行解密数据库
+    async fn decrypt_database_parallel(
+        &self,
+        input_path: &Path,
+        output_path: &Path,
+        key: &[u8],
+        progress_callback: Option<ProgressCallback>,
+    ) -> Result<()> {
+        info!("🚀 使用并行模式解密V4数据库: {:?} -> {:?}", input_path, output_path);
+        
+        let parallel_decryptor = ParallelDecryptor::new(
+            self.config.clone(),
+            self.parallel_config.clone(),
+        );
+        
+        parallel_decryptor.decrypt_database_parallel(
+            input_path,
+            output_path,
+            key,
+            progress_callback,
+        ).await
+    }
+    
+    /// 顺序解密数据库（原有实现）
+    async fn decrypt_database_sequential(
+        &self,
+        input_path: &Path,
+        output_path: &Path,
+        key: &[u8],
+        progress_callback: Option<ProgressCallback>,
+    ) -> Result<()> {
+        info!("📝 使用顺序模式解密V4数据库: {:?} -> {:?}", input_path, output_path);
         
         // 1. 读取数据库信息
         let (file_size, first_page) = self.read_db_info(input_path).await?;

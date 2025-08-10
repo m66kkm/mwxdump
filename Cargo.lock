@@ -2734,6 +2734,7 @@ dependencies = [
  "sha2",
  "sqlx",
  "sysinfo",
+ "tempfile",
  "thiserror 2.0.12",
  "tokio",
  "tracing",
